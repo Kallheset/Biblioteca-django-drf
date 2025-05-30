@@ -1,0 +1,175 @@
+/* Estilos generales */
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+footer {
+    margin-top: auto;
+}
+
+/* Estilos para las tarjetas de libros */
+.card {
+    transition: transform 0.2s;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+.card-img-top {
+    border-bottom: 1px solid #eee;
+}
+
+/* Estilos para los dropdowns */
+.dropdown-menu {
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+/* Estilos para los botones */
+.btn-primary {
+    background-color: #0d6efd;
+    border-color: #0d6efd;
+}
+
+.btn-primary:hover {
+    background-color: #0b5ed7;
+    border-color: #0a58ca;
+}
+
+/* Estilos para la barra de búsqueda */
+.input-group .form-control:focus {
+    border-color: #0d6efd;
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+}
+
+/* Estilos para los mensajes de alerta */
+.alert {
+    margin-bottom: 1rem;
+}
+
+/* Estilos para el navbar */
+.navbar {
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.navbar-brand {
+    font-weight: bold;
+}
+
+/* Estilos para los formularios */
+.form-select:focus {
+    border-color: #0d6efd;
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+}
+
+/* Estilos para los iconos */
+.fa-book {
+    color: #6c757d;
+}
+
+/* Estilos para el footer */
+footer {
+    padding: 1rem 0;
+    background-color: #343a40;
+    color: white;
+}
+
+/* Estilos de las tarjetas */
+.card-body {
+    padding: 2rem;
+}
+
+.display-4 {
+    color: #333;
+    margin-bottom: 1rem;
+}
+
+.lead {
+    color: #6c757d;
+}
+
+.list-group-item {
+    border-left: none;
+    border-right: none;
+}
+
+/* Estilos de las tarjetas de libros */
+.libro-card {
+    border: 1px solid #dee2e6;
+    transition: transform 0.2s;
+}
+
+.libro-card:hover {
+    transform: translateY(-5px);
+}
+
+.libro-card .card-title {
+    color: #2c3e50;
+    font-weight: 600;
+}
+
+/* Estilos de las tarjetas de préstamos */
+.prestamo-card {
+    border-left: 4px solid #007bff;
+}
+
+.prestamo-card.devuelto {
+    border-left: 4px solid #28a745;
+    opacity: 0.8;
+}
+
+.btn-prestar {
+    width: 100%;
+    margin-top: 1rem;
+}
+
+/* Estilos de los mensajes */
+.messages {
+    margin-bottom: 2rem;
+}
+
+.error-message {
+    color: #dc3545;
+    margin-top: 5px;
+    font-size: 0.875rem;
+}
+
+.success-message {
+    color: #28a745;
+    margin-top: 5px;
+    font-size: 0.875rem;
+}
+
+#login-section {
+    max-width: 400px;
+    margin: 50px auto;
+}
+
+.section-title {
+    margin-bottom: 20px;
+    color: #333;
+    border-bottom: 2px solid #007bff;
+    padding-bottom: 10px;
+}
+
+/* Estilos de los badges */
+.badge {
+    font-weight: 500;
+    padding: 0.5em 0.75em;
+}
+
+/* Estilos responsivos */
+@media (max-width: 768px) {
+    .card {
+        margin-bottom: 1rem;
+    }
+    
+    .btn-prestar {
+        margin-top: 0.5rem;
+    }
+} 

@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Lista de Libros</h2>
+    
+    <!-- Formulariio búsqueda -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <form method="get">
+                <div class="row">
+                    <div class="col-md-6">
+                        <input type="text" name="q" class="form-control" placeholder="Buscar libros..." value="{{ query }}">
+                    </div>
+                    <div class="col-md-3">
+                        <select name="categoria" class="form-control">
+                            <option value="">Todas las categorías</option>
+                            {% for categoria in categorias %}
+                            <option value="{{ categoria.id }}" {% if categoria_seleccionada == categoria.id %}selected{% endif %}>
+                                {{ categoria.nombre }}
+                            </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <button type="submit" class="btn btn-primary w-100">Buscar</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Lista de libros -->
+    <div class="row">
+        {% for libro in libros %}
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                {% if libro.imagen %}
+                <img src="{{ libro.imagen.url }}" class="card-img-top" alt="{{ libro.titulo }}" style="height: 200px; object-fit: cover;">
+                {% endif %}
+                <div class="card-body">
+                    <h5 class="card-title">{{ libro.titulo }}</h5>
+                    <p class="card-text">
+                        <strong>Autor:</strong> {{ libro.autor.nombre }}<br>
+                        <strong>Categoría:</strong> {{ libro.categoria.nombre|default:"Sin categoría" }}<br>
+                        <strong>ISBN:</strong> {{ libro.isbn }}<br>
+                        <strong>Stock:</strong> {{ libro.stock }}<br>
+                        <strong>Estado:</strong> 
+                        {% if libro.disponible %}
+                        <span class="badge bg-success">Disponible</span>
+                        {% else %}
+                        <span class="badge bg-danger">No disponible</span>
+                        {% endif %}
+                    </p>
+                    {% if libro.descripcion %}
+                    <div class="mb-2">
+                        <strong>Descripción:</strong>
+                        <p class="text-muted">{{ libro.descripcion|truncatewords:30 }}</p>
+                    </div>
+                    {% endif %}
+                    {% if libro.disponible %}
+                    <form method="post" action="{% url 'crear_prestamo' %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="libro" value="{{ libro.id }}">
+                        <div class="mb-2">
+                            <label for="dias_prestamo_{{ libro.id }}" class="form-label">Días de préstamo:</label>
+                            <select name="dias_prestamo" id="dias_prestamo_{{ libro.id }}" class="form-select">
+                                <option value="7">7 días</option>
+                                <option value="15">15 días</option>
+                                <option value="30">30 días</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Prestar</button>
+                    </form>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12">
+            <p class="text-center">No se encontraron libros.</p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %} 

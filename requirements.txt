@@ -1,5 +1,5 @@
 Django==5.2.1
-mysqlclient==2.2.7
+psycopg2-binary==2.9.9
 djangorestframework==3.16.0
 django-filter==25.1
 drf-spectacular==0.28.0

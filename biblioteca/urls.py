@@ -24,14 +24,21 @@ from apps.libros import views as libros_views
 from apps.prestamos import views as prestamos_views
 from rest_framework.routers import DefaultRouter
 from . import views
+from django.contrib.auth.decorators import login_required
 
 router = DefaultRouter()
 router.register(r'libros', libros_views.LibroViewSet)
 router.register(r'categorias', libros_views.CategoriaViewSet)
 router.register(r'prestamos', prestamos_views.PrestamoViewSet, basename='prestamo')
 
+# Cambiar el título del admin
+admin.site.site_header = 'Panel de Administración - Biblioteca'
+admin.site.site_title = 'Biblioteca Admin'
+admin.site.index_title = 'Gestión de Biblioteca'
+
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    # URL del admin con un nombre menos predecible
+    path('gestor-biblioteca/', include('django.contrib.admin.site.urls')),
     path('api/', include(router.urls)),
     path('api-auth/', include('rest_framework.urls')),
     path('api/schema/', SpectacularAPIView.as_view(), name='schema'),

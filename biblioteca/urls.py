@@ -38,7 +38,7 @@ admin.site.index_title = 'Gestión de Biblioteca'
 
 urlpatterns = [
     # URL del admin con un nombre menos predecible
-    path('gestor-biblioteca/', include('django.contrib.admin.urls')),
+    path('gestor-biblioteca/', admin.site.urls),
     path('api/', include(router.urls)),
     path('api-auth/', include('rest_framework.urls')),
     path('api/schema/', SpectacularAPIView.as_view(), name='schema'),

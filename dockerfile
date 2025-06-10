@@ -28,6 +28,9 @@ COPY . .
 # Crear directorio para archivos estáticos
 RUN mkdir -p /app/staticfiles
 
+# Recolectar archivos estáticos
+RUN python manage.py collectstatic --noinput
+
 # Exponer el puerto
 EXPOSE 8000
 

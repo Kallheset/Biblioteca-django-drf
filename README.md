@@ -1,155 +1,112 @@
-# Sistema de Biblioteca
+# Sistema de Gestión de Biblioteca
 
-Sistema de gestión de biblioteca desarrollado con Django y Django REST Framework.
+Sistema de gestión de biblioteca desarrollado con Django y Django REST Framework, que permite administrar libros, préstamos y usuarios.
 
 ## Características
 
-- Gestión de libros, autores y categorías
-- Sistema de préstamos de libros
-- API REST para integración con otros sistemas
-- Autenticación de usuarios
-- Interfaz web responsive
-- Documentación interactiva de la API (Swagger UI y Redoc)
+- Gestión de libros y categorías
+- Sistema de préstamos
+- API REST completa
+- Panel de administración personalizado
+- Autenticación y autorización
+- Documentación de API con Swagger/ReDoc
+- Límite de intentos de inicio de sesión
+- Almacenamiento de archivos en Cloudinary
 
 ## Requisitos
 
-- Python 3.8+
-- MySQL 5.7+
-- pip (gestor de paquetes de Python)
+- Python 3.11+
+- Docker y Docker Compose
+- Cuenta en Cloudinary (para almacenamiento de archivos)
 
-## Instalación
+## Configuración del Entorno
 
 1. Clonar el repositorio:
 ```bash
-git clone <url-del-repositorio>
+git clone https://github.com/Kallheset/Biblioteca-django-drf.git
 cd biblioteca-backend
 ```
 
-2. Crear y activar entorno virtual:
-```bash
-python -m venv venv
-source venv/bin/activate  # En Windows: venv\Scripts\activate
-```
-
-3. Instalar dependencias:
-```bash
-pip install -r requirements.txt
-```
-
-4. Configurar variables de entorno:
-Crear un archivo `.env` en la raíz del proyecto con las siguientes variables:
-```
-DB_NAME=biblioteca
-DB_USER=tu_usuario
-DB_PASSWORD=tu_contraseña
-DB_HOST=localhost
+2. Crear archivo `.env` con las siguientes variables:
+```env
+DEBUG=True
+SECRET_KEY=tu_clave_secreta
+DB_ENGINE=django.db.backends.mysql
+DB_NAME=biblioteca_db
+DB_USER=biblioteca_user
+DB_PASSWORD=biblioteca_pass
+DB_HOST=db
 DB_PORT=3306
+CLOUDINARY_CLOUD_NAME=tu_cloud_name
+CLOUDINARY_API_KEY=tu_api_key
+CLOUDINARY_API_SECRET=tu_api_secret
 ```
 
-5. Aplicar migraciones:
+## Desarrollo Local
+
+1. Iniciar los contenedores:
 ```bash
-python manage.py migrate
+docker-compose up
 ```
 
-6. Crear superusuario:
+2. Crear superusuario:
 ```bash
-python manage.py createsuperuser
+docker-compose exec web python manage.py createsuperuser
 ```
 
-7. Iniciar el servidor:
-```bash
-python manage.py runserver
-```
+3. Acceder a la aplicación:
+- Panel de administración: http://localhost:8000/gestor-biblioteca/
+- API Documentation: http://localhost:8000/api/docs/
 
-## Uso
-
-### Interfaz Web
-
-- URL base: `http://localhost:8000/`
-- Panel de administración: `http://localhost:8000/admin/`
-- Documentación Swagger UI: `http://localhost:8000/api/docs/`
-- Documentación Redoc: `http://localhost:8000/api/redoc/`
-- Esquema OpenAPI (JSON): `http://localhost:8000/api/schema/`
-
-### Flujo de la Aplicación
-
-1. **Acceso Público**:
-   - Ver lista de libros disponibles
-   - Buscar libros por título, autor o categoría
-   - Ver detalles de los libros
-
-2. **Acceso Autenticado**:
-   - Iniciar sesión: `/login/`
-   - Registro de usuarios: `/registro/`
-   - Gestión de préstamos: `/prestamos/`
-   - Devolución de libros
-
-3. **Funcionalidades por Usuario**:
-   - Ver préstamos activos
-   - Ver historial de préstamos
-   - Devolver libros
-   - Solicitar nuevos préstamos
-
-### API REST
-
-La API está disponible en `/api/` y requiere autenticación de usuario (session auth o token según configuración).
-
-Endpoints principales:
-- `/api/libros/`: Gestión de libros
-- `/api/categorias/`: Gestión de categorías
-- `/api/prestamos/`: Gestión de préstamos
-
-La documentación interactiva y el esquema OpenAPI están disponibles en:
-- Swagger UI: `/api/docs/`
-- Redoc: `/api/redoc/`
-- OpenAPI JSON: `/api/schema/`
-
-
-### Estructura del Proyecto
+## Estructura del Proyecto
 
 ```
 biblioteca-backend/
 ├── apps/
-│   ├── autores/
-│   ├── libros/
-│   └── prestamos/
-├── biblioteca/
-├── templates/
-├── static/
-└── media/
+│   ├── libros/          # Aplicación para gestión de libros
+│   ├── prestamos/       # Aplicación para gestión de préstamos
+│   └── autores/         # Aplicación para gestión de autores
+├── biblioteca/          # Configuración principal del proyecto
+├── templates/           # Plantillas HTML
+├── static/             # Archivos estáticos
+├── Dockerfile          # Configuración de Docker
+├── docker-compose.yml  # Configuración de Docker Compose
+└── requirements.txt    # Dependencias del proyecto
 ```
 
-## Base de Datos
+## API Endpoints
 
-Este proyecto utiliza MySQL como sistema de gestión de base de datos. Debes crear una base de datos vacía llamada `biblioteca` (o el nombre que definas en tu archivo `.env`)
+- `/api/libros/` - Gestión de libros
+- `/api/categorias/` - Gestión de categorías
+- `/api/prestamos/` - Gestión de préstamos
+- `/api/docs/` - Documentación de la API (Swagger)
+- `/api/redoc/` - Documentación alternativa (ReDoc)
 
-Asegúrate de tener un usuario y contraseña válidos para conectarte a MySQL. Puedes crear la base de datos ejecutando:
+## Seguridad
 
-```sql
-CREATE DATABASE biblioteca CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-```
+- Límite de intentos de inicio de sesión (5 intentos)
+- URLs del admin personalizadas
+- Autenticación requerida para la API
+- Protección CSRF
+- Variables de entorno para datos sensibles
 
-El archivo `.env` debe contener los datos de conexión:
+## Despliegue
 
-```
-DB_NAME=biblioteca
-DB_USER=tu_usuario
-DB_PASSWORD=tu_contraseña
-DB_HOST=localhost
-DB_PORT=3306
-```
+El proyecto está configurado para ser desplegado en Render. Los archivos de configuración incluyen:
 
-Las migraciones de Django crearán automáticamente las tablas necesarias al ejecutar:
+- `Dockerfile` para la construcción de la imagen
+- `docker-compose.yml` para la orquestación de contenedores
+- `start.sh` para la inicialización del servicio
 
-```bash
-python manage.py migrate
-```
+## Contribuir
 
-### Comandos Útiles
+1. Fork el proyecto
+2. Crear una rama para tu feature (`git checkout -b feature/AmazingFeature`)
+3. Commit tus cambios (`git commit -m 'Add some AmazingFeature'`)
+4. Push a la rama (`git push origin feature/AmazingFeature`)
+5. Abrir un Pull Request
 
-- Crear migraciones: `python manage.py makemigrations`
-- Aplicar migraciones: `python manage.py migrate`
-- Crear superusuario: `python manage.py createsuperuser`
+
 
 
 

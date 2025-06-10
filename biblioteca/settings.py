@@ -58,6 +58,7 @@ INSTALLED_APPS = [
     'apps.autores',
     'apps.prestamos',
     'django_filters',
+    'axes',
 ]
 
 
@@ -81,6 +82,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
+    'axes.middleware.AxesMiddleware',
 ]
 
 ROOT_URLCONF = 'biblioteca.urls'
@@ -228,7 +230,31 @@ LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = '/libros/'
 LOGOUT_REDIRECT_URL = '/login/'
 
+# Configuración de seguridad
+SECURE_SSL_REDIRECT = True  # Redirige HTTP a HTTPS
+SESSION_COOKIE_SECURE = True  # Cookies solo por HTTPS
+CSRF_COOKIE_SECURE = True  # CSRF cookies solo por HTTPS
+SECURE_BROWSER_XSS_FILTER = True  # Filtro XSS del navegador
+SECURE_CONTENT_TYPE_NOSNIFF = True  # Previene MIME type sniffing
+X_FRAME_OPTIONS = 'DENY'  # Previene clickjacking
+SECURE_HSTS_SECONDS = 31536000  # HSTS (1 año)
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_HSTS_PRELOAD = True
+
 # Configuración de sesión
-SESSION_COOKIE_AGE = 1209600  # 2 semanas en segundos
-SESSION_EXPIRE_AT_BROWSER_CLOSE = False
-SESSION_SAVE_EVERY_REQUEST = True
+SESSION_COOKIE_AGE = 3600  # 1 hora
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+
+# Configuración de django-axes
+AUTHENTICATION_BACKENDS = [
+    'axes.backends.AxesBackend',
+    'django.contrib.auth.backends.ModelBackend',
+]
+
+AXES_FAILURE_LIMIT = 3  # Número de intentos permitidos
+AXES_LOCKOUT_TIME = 5  # Tiempo de bloqueo en minutos
+AXES_LOCKOUT_PARAMETERS = ['ip_address', 'username']  # Bloquear por IP y usuario
+AXES_USE_USER_AGENT = True  # Considerar el User-Agent
+AXES_COOLOFF_TIME = 5  # Tiempo de espera en minutos
+AXES_LOCKOUT_TEMPLATE = 'axes/lockout.html'  # Template personalizado para el bloqueo
+AXES_VERBOSE = True  # Logging detallado

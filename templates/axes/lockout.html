@@ -1,0 +1,14 @@
+{% extends "admin/base_site.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Cuenta bloqueada" %}{% endblock %}
+
+{% block content %}
+<div style="text-align: center; margin-top: 50px;">
+    <h1>{% trans "Cuenta bloqueada" %}</h1>
+    <p>{% trans "Demasiados intentos fallidos de inicio de sesión." %}</p>
+    <p>{% trans "Su cuenta ha sido bloqueada por 5 minutos por razones de seguridad." %}</p>
+    <p>{% trans "Por favor, intente nuevamente más tarde." %}</p>
+    <p>{% trans "Si cree que esto es un error, contacte al administrador." %}</p>
+</div>
+{% endblock %} 

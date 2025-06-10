@@ -25,8 +25,11 @@ RUN pip install --upgrade pip && pip install -r requirements.txt
 # Copiar el resto del proyecto
 COPY . .
 
+# Crear directorio para archivos estáticos
+RUN mkdir -p /app/staticfiles
+
 # Exponer el puerto
 EXPOSE 8000
 
-# Correr el servidor de desarrollo
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+# Comando para producción usando Gunicorn
+CMD ["gunicorn", "biblioteca.wsgi:application", "--bind", "0.0.0.0:8000", "--workers", "3"]

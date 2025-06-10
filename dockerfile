@@ -3,6 +3,8 @@ FROM python:3.11-slim
 # Variables de entorno
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
+ENV DJANGO_SETTINGS_MODULE=biblioteca.settings
+ENV DEBUG=False
 
 # Instalar dependencias del sistema necesarias para mysqlclient
 RUN apt-get update \
@@ -28,11 +30,12 @@ COPY . .
 # Crear directorio para archivos estáticos
 RUN mkdir -p /app/staticfiles
 
-# Recolectar archivos estáticos
-RUN python manage.py collectstatic --noinput
-
 # Exponer el puerto
 EXPOSE 8000
 
+# Script de inicio
+COPY start.sh /start.sh
+RUN chmod +x /start.sh
+
 # Comando para producción usando Gunicorn
-CMD ["gunicorn", "biblioteca.wsgi:application", "--bind", "0.0.0.0:8000", "--workers", "3"]
+CMD ["/start.sh"]

@@ -1,5 +1,5 @@
 from rest_framework import viewsets, filters
-from .models import Categoria, Libro
+from .models import Categoria, Libro, Autor
 from .serializers import CategoriaSerializer, LibroSerializer
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from django_filters.rest_framework import DjangoFilterBackend
@@ -41,20 +41,39 @@ def lista_libros(request):
 def crear_libro(request):
     if request.method == 'POST':
         try:
+            # Obtener los datos del formulario
+            form_data = request.POST.copy()
+            imagen = request.FILES.get('imagen')
+            
+            # Crear el libro
             libro = Libro.objects.create(
-                titulo=request.POST['titulo'],
-                autor_id=request.POST['autor'],
-                categoria_id=request.POST['categoria'],
-                isbn=request.POST['isbn'],
-                descripcion=request.POST.get('descripcion', ''),
-                fecha_publicacion=request.POST['fecha_publicacion'],
-                stock=request.POST.get('stock', 1)
+                titulo=form_data['titulo'],
+                autor_id=form_data['autor'],
+                categoria_id=form_data['categoria'],
+                isbn=form_data['isbn'],
+                descripcion=form_data.get('descripcion', ''),
+                fecha_publicacion=form_data['fecha_publicacion'],
+                stock=form_data.get('stock', 1)
             )
+            
+            # Si hay una imagen, guardarla
+            if imagen:
+                libro.imagen = imagen
+                libro.save()
+                
             messages.success(request, 'Libro creado exitosamente.')
             return redirect('lista_libros')
         except ValidationError as e:
             messages.error(request, str(e))
-    return render(request, 'crear_libro.html')
+    
+    # Obtener autores y categorías para el formulario
+    autores = Autor.objects.all()
+    categorias = Categoria.objects.all()
+    
+    return render(request, 'crear_libro.html', {
+        'autores': autores,
+        'categorias': categorias
+    })
 
 @login_required
 def prestar_libro(request, libro_id):

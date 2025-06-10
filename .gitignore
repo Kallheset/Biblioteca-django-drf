@@ -1,15 +1,10 @@
-# Byte-compiled / optimized / DLL files
+# Python
 __pycache__/
 *.py[cod]
 *$py.class
-
-# C extensions
 *.so
-
-# Distribution / packaging
 .Python
 env/
-venv/
 build/
 develop-eggs/
 dist/
@@ -25,48 +20,94 @@ var/
 .installed.cfg
 *.egg
 
-# Installer logs
-pip-log.txt
-pip-delete-this-directory.txt
+# Django
+*.log
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
+media
+staticfiles/
+static/
 
-# Unit test / coverage reports
+# Virtual Environment
+venv/
+ENV/
+.env
+.venv
+env.bak/
+venv.bak/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*.sublime-workspace
+*.sublime-project
+
+# Docker
+.docker/
+docker-compose.override.yml
+*.env
+.env.*
+!.env.example
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Coverage
+.coverage
 htmlcov/
 .tox/
 .nox/
-.coverage
 .coverage.*
 .cache
 nosetests.xml
 coverage.xml
 *.cover
+*.py,cover
 .hypothesis/
 .pytest_cache/
 
-# Django stuff:
-*.log
+# Translations
+*.mo
+*.pot
+
+# Celery
+celerybeat-schedule
+celerybeat.pid
+
+# Node
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Backup files
+*.bak
+*.tmp
+*.temp
+*~
+
+# Local development
 local_settings.py
-db.sqlite3
-media/
-migrations/
+local.py
 
-# VS Code
-.vscode/
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
 
-# MacOS
-.DS_Store
-
-# Windows
-Thumbs.db
-Desktop.ini
-
-# Python dotenv
-.env
-
-# Static files
-staticfiles/
-
-# Jupyter Notebooks
-.ipynb_checkpoints/
+# Unit test / coverage reports
+*.cover
 
 # MySQL dumps
 *.sql

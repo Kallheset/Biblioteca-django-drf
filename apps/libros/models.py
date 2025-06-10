@@ -3,6 +3,7 @@ from apps.autores.models import Autor
 from django.core.exceptions import ValidationError
 from django.utils import timezone
 from django.core.validators import MinValueValidator, MaxValueValidator
+from cloudinary.models import CloudinaryField
 
 # Create your models here.
 
@@ -25,7 +26,13 @@ class Libro(models.Model):
     categoria = models.ForeignKey(Categoria, on_delete=models.SET_NULL, null=True, blank=True)
     fecha_publicacion = models.DateField()
     disponible = models.BooleanField(default=True)
-    imagen = models.ImageField(upload_to='libros/', null=True, blank=True)
+    imagen = CloudinaryField(
+        'imagen',
+        folder='biblioteca/libros',
+        resource_type='image',
+        null=True,
+        blank=True
+    )
     descripcion = models.TextField(blank=True)
     paginas = models.PositiveIntegerField(validators=[MinValueValidator(1)], null=True, blank=True)
     calificacion = models.PositiveIntegerField(

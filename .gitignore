@@ -87,6 +87,9 @@ docker-compose.override.yml
 Thumbs.db
 desktop.ini
 
+# Avatares de usuarios
+avatars/
+
 # Logs
 logs/
 *.log

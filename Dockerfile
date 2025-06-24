@@ -20,5 +20,8 @@ RUN pip install --upgrade pip && pip install -r requirements.txt
 
 COPY . /app/
 
+# Dar permisos de ejecución al script de inicio
+RUN chmod +x /app/start.sh
+
 EXPOSE 8000
-CMD ["gunicorn", "biblioteca.wsgi:application", "--bind", "0.0.0.0:8000"]
+CMD ["sh", "/app/start.sh"]

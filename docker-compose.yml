@@ -1,0 +1,52 @@
+version: "3.9"
+
+services:
+  db:
+    image: mysql:8
+    container_name: mysql_db
+    restart: always
+    environment:
+      MYSQL_DATABASE: biblioteca_db
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: biblioteca_user
+      MYSQL_PASSWORD: biblioteca_pass
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-proot"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  web:
+    build: .
+    container_name: biblioteca_app
+    command: >
+      sh -c "python manage.py migrate &&
+             python manage.py collectstatic --noinput &&
+             python manage.py runserver 0.0.0.0:8000"
+    volumes:
+      - .:/app
+      - static_volume:/app/staticfiles
+    ports:
+      - "8000:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      - DEBUG=1
+      - DJANGO_SETTINGS_MODULE=biblioteca.settings
+      - DB_ENGINE=django.db.backends.mysql
+      - DB_NAME=biblioteca_db
+      - DB_USER=biblioteca_user
+      - DB_PASSWORD=biblioteca_pass
+      - DB_HOST=db
+      - DB_PORT=3306
+    restart: always
+
+volumes:
+  mysql_data:
+  static_volume:

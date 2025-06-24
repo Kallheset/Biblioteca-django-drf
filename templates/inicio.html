@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row">
+        <div class="col-12 text-center mb-5">
+            <h1 class="display-4">Bienvenido a la Biblioteca</h1>
+            <p class="lead">Gestiona tu biblioteca de manera fácil y eficiente</p>
+        </div>
+    </div>
+    
+    <div class="row g-4">
+        <!-- Tarjeta de Libros -->
+        <div class="col-md-4">
+            <div class="card h-100 border-0 shadow-sm">
+                <div class="card-body text-center">
+                    <div class="bg-primary bg-opacity-10 p-3 rounded-circle d-inline-block mb-3">
+                        <i class="fas fa-book fa-3x text-primary"></i>
+                    </div>
+                    <h3 class="h5">Libros en la biblioteca</h3>
+                    <h2 class="display-4 fw-bold text-primary">{{ total_libros }}</h2>
+                    <p class="text-muted">Libros disponibles: {{ libros_disponibles }}</p>
+                    <a href="{% url 'lista_libros' %}" class="btn btn-outline-primary">Ver libros</a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Tarjeta de Préstamos -->
+        <div class="col-md-4">
+            <div class="card h-100 border-0 shadow-sm">
+                <div class="card-body text-center">
+                    <div class="bg-success bg-opacity-10 p-3 rounded-circle d-inline-block mb-3">
+                        <i class="fas fa-exchange-alt fa-3x text-success"></i>
+                    </div>
+                    <h3 class="h5">Préstamos activos</h3>
+                    <h2 class="display-4 fw-bold text-success">
+                        {{ prestamos_activos|default:"0" }}
+                    </h2>
+                    <p class="text-muted">Gestiona los préstamos</p>
+                    <a href="{% url 'lista_prestamos' %}" class="btn btn-outline-success">Ver préstamos</a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Tarjeta de Mi Perfil -->
+        <div class="col-md-4">
+            <div class="card h-100 border-0 shadow-sm">
+                <div class="card-body text-center">
+                    <div class="bg-info bg-opacity-10 p-3 rounded-circle d-inline-block mb-3">
+                        <i class="fas fa-user fa-3x text-info"></i>
+                    </div>
+                    <h3 class="h5">Mi Perfil</h3>
+                    <p class="text-muted">
+                        {% if user.is_authenticated %}
+                            Hola, {{ user.username }}
+                        {% else %}
+                            Inicia sesión para ver tu perfil
+                        {% endif %}
+                    </p>
+                    {% if user.is_authenticated %}
+                        <a href="{% url 'usuarios:perfil' %}" class="btn btn-outline-info">Ver perfil</a>
+                    {% else %}
+                        <a href="{% url 'usuarios:login' %}" class="btn btn-outline-info">Iniciar sesión</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Acciones rápidas -->
+    <div class="row mt-5">
+        <div class="col-12 text-center mb-4">
+            <h2 class="h4">Acciones rápidas</h2>
+            <div class="d-flex justify-content-center gap-3 mt-3">
+                <a href="{% url 'crear_prestamo' %}" class="btn btn-primary">
+                    <i class="fas fa-plus me-2"></i>Nuevo Préstamo
+                </a>
+                <a href="{% url 'lista_libros' %}" class="btn btn-outline-secondary">
+                    <i class="fas fa-book me-2"></i>Ver Catálogo
+                </a>
+                {% if user.is_staff %}
+                <a href="{% url 'admin:index' %}" class="btn btn-outline-dark">
+                    <i class="fas fa-cog me-2"></i>Panel de Administración
+                </a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

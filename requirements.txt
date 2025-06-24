@@ -1,0 +1,55 @@
+# requirements.txt - Dependencias principales para el proyecto Django Biblioteca
+# Solo incluye librerías necesarias para producción y desarrollo real
+
+# --- Framework principal ---
+Django==5.2.1                # Framework web principal
+
+# --- Django REST Framework y extensiones ---
+djangorestframework==3.16.0  # API REST
+django-filter==25.1          # Filtros para DRF
+
+# --- Documentación de APIs ---
+drf-spectacular==0.28.0      # Esquema y docs OpenAPI
+
+# --- Almacenamiento y media en la nube ---
+cloudinary==1.44.0           # SDK de Cloudinary
+python-dotenv==1.1.0         # Cargar variables de entorno
+pillow==11.2.1               # Imágenes
+python-decouple==3.8         # Configuración por entorno
+
+# --- Integración Cloudinary con Django ---
+django-cloudinary-storage==0.3.0
+
+# --- Base de datos MySQL ---
+mysqlclient==2.2.7
+
+# --- Servidor producción ---
+gunicorn==22.0.0             # WSGI para producción
+whitenoise==6.9.0            # Archivos estáticos en producción
+
+# --- CORS y utilidades extra ---
+django-cors-headers==4.3.0   # CORS para APIs
+
+# --- Dependencias de bajo nivel (requeridas por otras libs) ---
+asgiref==3.8.1
+Brotli==1.1.0
+certifi==2025.4.26
+charset-normalizer==3.4.2
+click==8.2.1
+colorama==0.4.6
+h11==0.16.0
+idna==3.10
+inflection==0.5.1
+jsonschema==4.24.0
+jsonschema-specifications==2025.4.1
+packaging==25.0
+PyYAML==6.0.2
+referencing==0.36.2
+requests==2.32.3
+rpds-py==0.25.1
+six==1.17.0
+sqlparse==0.5.3
+tzdata==2025.2
+uritemplate==4.2.0
+urllib3==2.4.0
+uvicorn==0.34.3

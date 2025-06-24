@@ -1,0 +1,139 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row">
+        <!-- Columna de información del usuario -->
+        <div class="col-md-4">
+            <div class="card mb-4">
+                <div class="card-body text-center">
+                    <div class="mb-3">
+                        {% if usuario.perfil.avatar %}
+                            <img src="{{ usuario.perfil.avatar.url }}" alt="Avatar" class="img-thumbnail rounded-circle" style="width: 100px; height: 100px; object-fit: cover;">
+                        {% else %}
+                            <i class="fas fa-user-circle fa-5x text-primary"></i>
+                        {% endif %}
+                    </div>
+                    <h3 class="card-title">{{ usuario.get_full_name|default:usuario.username }}</h3>
+<p class="text-muted">@{{ usuario.username }}</p>
+<hr>
+<p><i class="fas fa-envelope me-2"></i> {{ usuario.email }}</p>
+<p><i class="fas fa-calendar-alt me-2"></i> Miembro desde: {{ usuario.date_joined|date:"d/m/Y" }}</p>
+
+<!-- Tarjeta de información de perfil -->
+<div class="card mt-3">
+    <div class="card-header bg-light">
+        <strong>Información de perfil</strong>
+    </div>
+    <div class="card-body text-start">
+        <p><i class="fas fa-map-marker-alt me-2"></i> <strong>Dirección:</strong> {{ usuario.perfil.direccion|default:'No especificada' }}</p>
+        <p><i class="fas fa-phone me-2"></i> <strong>Teléfono:</strong> {{ usuario.perfil.telefono|default:'No especificado' }}</p>
+        <p><i class="fas fa-user-tag me-2"></i> <strong>Apodo:</strong> {{ usuario.perfil.apodo|default:'No especificado' }}</p>
+
+    </div>
+</div>
+<a href="{% url 'usuarios:editar_perfil' %}" class="btn btn-outline-primary btn-sm mt-2">
+    <i class="fas fa-edit me-1"></i> Editar perfil
+</a>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">Estadísticas</h5>
+                </div>
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <span>Préstamos activos:</span>
+                        <span class="badge bg-primary rounded-pill">{{ prestamos_activos|length }}</span>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <span>Total de préstamos:</span>
+                        <span class="badge bg-secondary rounded-pill">
+                            {{ prestamos_activos|length|add:historial_prestamos|length }}
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Columna de préstamos -->
+        <div class="col-md-8">
+            <!-- Préstamos activos -->
+            <div class="card mb-4">
+                <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">Préstamos Activos</h5>
+                    <span class="badge bg-light text-primary">{{ prestamos_activos|length }}</span>
+                </div>
+                <div class="card-body">
+                    {% if prestamos_activos %}
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Libro</th>
+                                        <th>Fecha de préstamo</th>
+                                        <th>Devolución</th>
+                                        <th>Estado</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for prestamo in prestamos_activos %}
+                                    <tr>
+                                        <td>
+                                            <a href="#" class="text-decoration-none">
+                                                {{ prestamo.libro.titulo }}
+                                            </a>
+                                        </td>
+                                        <td>{{ prestamo.fecha_prestamo|date:"d/m/Y" }}</td>
+                                        <td>{{ prestamo.fecha_devolucion_esperada|date:"d/m/Y" }}</td>
+                                        <td>
+                                            {% if hoy > prestamo.fecha_devolucion_esperada %}
+                                                <span class="badge bg-danger">Atrasado</span>
+                                            {% else %}
+                                                <span class="badge bg-success">En tiempo</span>
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    {% else %}
+                        <div class="alert alert-info mb-0">
+                            No tienes préstamos activos en este momento.
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Historial de préstamos -->
+            <div class="card">
+                <div class="card-header bg-secondary text-white">
+                    <h5 class="mb-0">Historial Reciente</h5>
+                </div>
+                <div class="card-body">
+                    {% if historial_prestamos %}
+                        <div class="list-group">
+                            {% for prestamo in historial_prestamos %}
+                            <div class="list-group-item">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <h6 class="mb-1">{{ prestamo.libro.titulo }}</h6>
+                                    <small class="text-muted">Devuelto el {{ prestamo.fecha_devolucion|date:"d/m/Y" }}</small>
+                                </div>
+                                <p class="mb-1">
+                                    Prestado el {{ prestamo.fecha_prestamo|date:"d/m/Y" }} - 
+                                    Devuelto el {{ prestamo.fecha_devolucion|date:"d/m/Y" }}
+                                </p>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <p class="text-muted mb-0">No hay historial de préstamos recientes.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

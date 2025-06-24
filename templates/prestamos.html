@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Mis Préstamos</h2>
+
+    <!-- Préstamos Activos -->
+    <h3 class="mt-4">Préstamos Activos</h3>
+    <div class="row">
+        {% for prestamo in prestamos_activos %}
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                {% if prestamo.libro.imagen %}
+                <img src="{{ prestamo.libro.imagen.url }}" class="card-img-top" alt="{{ prestamo.libro.titulo }}" style="height: 200px; object-fit: cover;">
+                {% endif %}
+                <div class="card-body">
+                    <h5 class="card-title">{{ prestamo.libro.titulo }}</h5>
+                    <p class="card-text">
+                        <strong>Autor:</strong> {{ prestamo.libro.autor.nombre }}<br>
+                        <strong>Fecha de préstamo:</strong> {{ prestamo.fecha_prestamo }}<br>
+                        <strong>Fecha de devolución esperada:</strong> {{ prestamo.fecha_devolucion_esperada }}
+                    </p>
+                    <form method="post" action="{% url 'devolver_libro' prestamo.id %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-primary">Devolver</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12">
+            <p class="text-center">No tienes préstamos activos.</p>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Historial de Préstamos -->
+    <h3 class="mt-4">Historial de Préstamos</h3>
+    <div class="row">
+        {% for prestamo in prestamos_devueltos %}
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                {% if prestamo.libro.imagen %}
+                <img src="{{ prestamo.libro.imagen.url }}" class="card-img-top" alt="{{ prestamo.libro.titulo }}" style="height: 200px; object-fit: cover;">
+                {% endif %}
+                <div class="card-body">
+                    <h5 class="card-title">{{ prestamo.libro.titulo }}</h5>
+                    <p class="card-text">
+                        <strong>Autor:</strong> {{ prestamo.libro.autor.nombre }}<br>
+                        <strong>Fecha de préstamo:</strong> {{ prestamo.fecha_prestamo }}<br>
+                        <strong>Fecha de devolución:</strong> {{ prestamo.fecha_devolucion }}
+                    </p>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12">
+            <p class="text-center">No tienes préstamos devueltos.</p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %} 

@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">Editar Perfil</h4>
+                </div>
+                <div class="card-body">
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col-md-6">
+                                {{ perfil_form.direccion.label_tag }}
+                                <input type="text" name="direccion" value="{{ perfil_form.direccion.value|default_if_none:'' }}" class="form-control mb-3" id="id_direccion">
+                                {{ perfil_form.fecha_nacimiento.label_tag }}
+                                <input type="date" name="fecha_nacimiento" value="{{ perfil_form.fecha_nacimiento.value|default_if_none:'' }}" class="form-control mb-3" id="id_fecha_nacimiento">
+                                {{ perfil_form.telefono.label_tag }}
+                                <input type="text" name="telefono" value="{{ perfil_form.telefono.value|default_if_none:'' }}" class="form-control mb-3" id="id_telefono">
+                                {{ perfil_form.apodo.label_tag }}
+                                <input type="text" name="apodo" value="{{ perfil_form.apodo.value|default_if_none:'' }}" class="form-control mb-3" id="id_apodo">
+                            </div>
+                            <div class="col-md-6">
+                                {{ email_form.email.label_tag }}
+                                <input type="email" name="email" value="{{ email_form.email.value|default_if_none:'' }}" class="form-control mb-3" id="id_email">
+                                {{ perfil_form.avatar.label_tag }}
+                                <input type="file" name="avatar" class="form-control mb-3" id="id_avatar">
+                                {% if perfil_form.avatar.value %}
+                                <div class="mb-3">
+                                    <img src="{{ perfil_form.instance.avatar.url }}" alt="Avatar" class="img-thumbnail" style="max-width: 120px;">
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="d-grid gap-2 mt-3">
+                            <button type="submit" class="btn btn-success btn-lg">Guardar Cambios</button>
+                            <a href="{% url 'usuarios:perfil' %}" class="btn btn-secondary">Cancelar</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

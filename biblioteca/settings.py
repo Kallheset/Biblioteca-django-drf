@@ -20,7 +20,9 @@ import cloudinary.uploader
 import cloudinary.api
 
 # Cargar variables de entorno
-load_dotenv('.env.dev')
+# Primero carga las del sistema, luego .env.dev solo si no existen
+from dotenv import find_dotenv
+load_dotenv(find_dotenv('.env.dev'), override=False)
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent

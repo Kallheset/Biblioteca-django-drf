@@ -2,7 +2,7 @@
 # Solo incluye librerías necesarias para producción y desarrollo real
 
 # --- Framework principal ---
-Django==5.2.1                # Framework web principal
+Django==5.2.1               
 
 # --- Django REST Framework y extensiones ---
 djangorestframework==3.16.0  # API REST
@@ -30,7 +30,7 @@ whitenoise==6.9.0            # Archivos estáticos en producción
 # --- CORS y utilidades extra ---
 django-cors-headers==4.3.0   # CORS para APIs
 
-# --- Dependencias de bajo nivel (requeridas por otras libs) ---
+# --- Dependencias
 asgiref==3.8.1
 Brotli==1.1.0
 certifi==2025.4.26

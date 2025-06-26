@@ -16,7 +16,7 @@ Sistema de gestión de biblioteca con Django y Django REST Framework.
 ## Instalación rápida
 1. Clona el repositorio:
    ```bash
-   git clone <URL-o-tu-fork>
+   git clone https://github.com/Kallheset/Biblioteca-django-drf.git
    cd Biblioteca-django-drf-main
    ```
 2. Copia el archivo `.env.dev` como `.env` y completa tus variables (Cloudinary, DB, etc).
@@ -35,10 +35,19 @@ Sistema de gestión de biblioteca con Django y Django REST Framework.
 - Admin: http://localhost:8000/admin/
 - Documentación API: http://localhost:8000/api/schema/swagger-ui/
 
+## Integración continua (CI/CD)
+
+Este repositorio incluye integración continua con GitHub Actions:
+- Se ejecutan tests automáticos en cada push y pull request a la rama `main`.
+- El workflow crea una base de datos MySQL temporal y define todas las variables de entorno necesarias, incluyendo `SECRET_KEY`.
+- En CI, también se genera automáticamente un archivo `.env.dev` para asegurar compatibilidad.
+
+Puedes ver el workflow en `.github/workflows/ci.yml` y el estado de las ejecuciones en la pestaña "Actions" del repositorio: https://github.com/Kallheset/Biblioteca-django-drf/actions
+
 ## Notas
 - Los archivos subidos (avatares, portadas) se almacenan en Cloudinary.
 - Para desarrollo local, la base de datos se ejecuta en MySQL dentro de Docker.
-- Las variables de entorno críticas están en `.env.dev`.
+- Las variables de entorno críticas están en `.env.dev`. En CI/CD, estas variables se definen automáticamente.
 
 ---
 

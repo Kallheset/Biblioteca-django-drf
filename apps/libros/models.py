@@ -10,6 +10,13 @@ from cloudinary.models import CloudinaryField
 class Categoria(models.Model):
     nombre = models.CharField(max_length=100)
     descripcion = models.TextField(blank=True)
+    imagen = CloudinaryField(
+        'imagen',
+        folder='biblioteca/categorias',
+        resource_type='image',
+        null=True,
+        blank=True
+    )
     
     class Meta:
         ordering = ['nombre']

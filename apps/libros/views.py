@@ -9,35 +9,43 @@ from django_filters.rest_framework import DjangoFilterBackend
 from apps.prestamos.models import Prestamo
 from django.utils import timezone
 from django.core.exceptions import ValidationError
-from django.conf import settings
+from django.db.models import Q
 
 @login_required
 def inicio(request):
     """
-    Vista de inicio que muestra un resumen de la biblioteca.
+    Vista de inicio que muestra un resumen de la biblioteca y las categorías con sus libros.
     """
-    from django.db.models import Q
-    from django.utils import timezone
-    
     # Obtener estadísticas de libros
     total_libros = Libro.objects.count()
     libros_disponibles = Libro.objects.filter(disponible=True).count()
-    
+
     # Obtener préstamos activos del usuario actual
     if request.user.is_authenticated:
-        from apps.prestamos.models import Prestamo
         prestamos_activos = Prestamo.objects.filter(
             usuario=request.user,
             fecha_devolucion__isnull=True
         ).count()
     else:
         prestamos_activos = 0
-    
+
+    # Obtener categorías y sus libros
+    from apps.libros.models import Categoria
+    categorias = Categoria.objects.prefetch_related('libro_set').all()
+    categorias_con_libros = []
+    for categoria in categorias:
+        libros = categoria.libro_set.all()
+        categorias_con_libros.append({
+            'categoria': categoria,
+            'libros': libros
+        })
+
     context = {
         'title': 'Inicio - Biblioteca',
         'total_libros': total_libros,
         'libros_disponibles': libros_disponibles,
         'prestamos_activos': prestamos_activos,
+        'categorias_con_libros': categorias_con_libros,
     }
     return render(request, 'inicio.html', context)
 
@@ -64,8 +72,7 @@ class LibroViewSet(viewsets.ModelViewSet):
 
 @login_required
 def lista_libros(request):
-    from django.db.models import Q
-    
+
     # Obtener parámetros de búsqueda
     query = request.GET.get('q', '')
     categoria_id = request.GET.get('categoria', '')

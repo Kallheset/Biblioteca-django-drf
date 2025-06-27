@@ -112,7 +112,11 @@ El proyecto está configurado para ser desplegado en Render. Los archivos de con
 - `docker-compose.yml` para la orquestación de contenedores
 - `start.sh` para la inicialización del servicio
 
+## Demo en Producción
+- https://biblioteca-django-drf.onrender.com/
 
+## Autor
+- Desarrollado por Argenis Manzanares — ¡gracias por visitar este proyecto!
 
 
 

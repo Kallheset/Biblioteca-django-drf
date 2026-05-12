@@ -13,7 +13,7 @@
 
 Sistema completo de gestión bibliotecaria que permite administrar libros, autores, categorías y préstamos de usuarios. Implementa **mejores prácticas de desarrollo backend** incluyendo arquitectura en capas, optimización de consultas SQL, manejo avanzado de excepciones, testing automatizado y CI/CD con GitHub Actions.
 
-**🔗 Demo en Vivo:** [biblioteca-django-drf.onrender.com](https://biblioteca-django-drf.onrender.com) *(Próximamente)*
+**🔗 Demo en Vivo:** [biblioteca-django-drf.onrender.com](https://biblioteca-django-drf.onrender.com)
 
 ---
 

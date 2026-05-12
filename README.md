@@ -460,7 +460,6 @@ Este proyecto demuestra:
 
 ## 👨‍💻 Autor
 
-**Tu Nombre**
 
 - GitHub: [@Kallheset](https://github.com/Kallheset)
 - LinkedIn: [www.linkedin.com/in/argenis-manzanares-108b4a349]
